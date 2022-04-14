@@ -7,9 +7,15 @@
    $level = mysqli_real_escape_string($db,$_POST['level']);
 
    if(isset($_POST['addUser'])){                                     //queries for user table
-   $sql = "INSERT INTO user (name, surname, email, password, level)
-   VALUES ('$name', '$surname', '$email','$password','$level')";
-   $result = mysqli_query($db,$sql);
+        $sql = "SELECT name,surname FROM `user` WHERE name='$name' AND surname ='$surname'";  
+        $result = mysqli_query($db,$sql);
+        $row = mysqli_num_rows($result);
+        if($row == 0 ) {
+            $sql = "INSERT INTO user (name, surname, email, password, level) VALUES ('$name', '$surname', '$email','$password','$level')";
+            $result = mysqli_query($db,$sql);
+        }else{
+            $error = "This record already exists!";
+        }
    }
    if(isset($_POST['updateUser'])){
    $sql = "UPDATE user SET name='$name', surname='$surname', email='$email', password='$password', level='$level' WHERE id='$id'";
@@ -22,9 +28,9 @@
 ?>
 <h3>USER</h3>
 <p>Click on the field you wish to modify and press update</p>
-<table width="90%" >
-  <tr>
-     <th><label>ID</label></th>
+<table width="70%" >
+  <tr style="text-align:left">
+     <th><label>User ID</label></th>
      <th><label>Name</label></th>
      <th><label>Surname</label></th>
      <th><label>Email</label></th>
@@ -91,5 +97,6 @@
             <input type="hidden" name="addUser" value="users"></input>
         <td><input name="addUser" type="submit" value="Add User"></input></td>
      </tr>
+      <tr><td><div id="textError"><?php echo $error; ?></div><td></tr>
    </form>
 </table>

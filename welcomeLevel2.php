@@ -4,6 +4,7 @@
     $level = mysqli_real_escape_string($db,$_POST['level']);
 ?>
 <!DOCTYPE html>
+<html lang="en">
    <head>
       <title>Welcome </title>
        <link rel="shortcut icon" href="#">
